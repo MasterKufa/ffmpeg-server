@@ -2,19 +2,16 @@ import { ExecException, exec } from 'child_process';
 import { Socket } from 'socket.io';
 import { ACTIONS } from '../../constants';
 import { ConvertConfig } from '../../types';
+import { WorkersPool } from 'MasterKufaTools';
+import { resolve } from 'path';
+import { ConvertTask, ConvertTaskResult } from './types';
 
-export const buildCmdMono_8_16 = (input: string, output: string) =>
-  `ffmpeg -i "/app/input/${input}" -y "/app/output/${output}" -ar 8000 -ac 1 -acodec pcm_s16le`;
+const processPath = resolve('.', 'process');
 
-export const replyMono_8_16 =
-  (socket: Socket, config: ConvertConfig) => (err: ExecException) =>
-    socket.emit(ACTIONS.mono_8_16, {
-      success: Boolean(err),
-      id: config.id,
-    });
+export const replyMono_8_16 = (socket: Socket) => (res: ConvertTaskResult) =>
+  socket.emit(ACTIONS.mono_8_16, res);
 
-export const mono_8_16Handler = (socket: Socket) => (config: ConvertConfig) =>
-  exec(
-    buildCmdMono_8_16(config.inputName, config.outputName),
-    replyMono_8_16(socket, config),
-  );
+export const mono_8_16Handler =
+  (socket: Socket, pool: WorkersPool<ConvertTask, ConvertTaskResult>) =>
+  (config: ConvertConfig) =>
+    pool.planTask({ processPath, callback: replyMono_8_16(socket), ...config });
