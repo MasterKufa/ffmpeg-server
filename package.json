@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Simple ffmpeg docker wrapper on node.",
   "scripts": {
-    "start": "ts-node ./src/index.ts -O '{\"module\": \"es2020\"}'"
+    "start": "ts-node ./src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -16,9 +16,9 @@
   },
   "homepage": "https://github.com/MasterKufa/ffmpeg_server#readme",
   "dependencies": {
+    "MasterKufaTools": "https://github.com/MasterKufa/MasterKufaTools.git",
     "socket.io": "^4.6.1",
-    "ts-node": "^10.9.1",
-    "MasterKufaTools": "https://github.com/MasterKufa/MasterKufaTools.git"
+    "ts-node": "^10.9.1"
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
