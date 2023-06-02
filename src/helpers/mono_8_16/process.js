@@ -1,8 +1,11 @@
-const reply = (id) => (err) =>
+const reply = (id) => (err) => {
   process.send({
     success: Boolean(err),
     id,
   });
+
+  exec(`rm "/app/input/${inputName}"`, process.exit);
+};
 
 const convert = ({ inputName, outputName, id }) =>
   exec(

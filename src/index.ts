@@ -1,7 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { ACTIONS } from './constants';
 import { mono_8_16Handler } from './helpers/mono_8_16';
-import { WorkersPool } from 'MasterKufaTools';
+import { WorkersPool } from '@master_kufa/tools';
 
 const io = new Server(3000);
 

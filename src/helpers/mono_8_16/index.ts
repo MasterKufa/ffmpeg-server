@@ -2,7 +2,7 @@ import { ExecException, exec } from 'child_process';
 import { Socket } from 'socket.io';
 import { ACTIONS } from '../../constants';
 import { ConvertConfig } from '../../types';
-import { WorkersPool } from 'MasterKufaTools';
+import { WorkersPool } from '@master_kufa/tools';
 import { resolve } from 'path';
 import { ConvertTask, ConvertTaskResult } from './types';
 
