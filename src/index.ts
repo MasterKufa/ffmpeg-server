@@ -1,12 +1,20 @@
-import { Server, Socket } from 'socket.io';
-import { ACTIONS } from './constants';
-import { mono_8_16Handler } from './helpers/mono_8_16';
-import { WorkersPool } from '@master_kufa/tools';
+import { Socket } from 'socket.io';
+import { createServer } from '@master_kufa/server-tools';
+import { ACTIONS } from './actions';
+import { api } from './api';
+import { config } from 'dotenv';
 
-const io = new Server(3000);
+config();
 
-const pool = new WorkersPool();
+const io = createServer();
 
 io.on('connection', (socket: Socket) => {
-  socket.on(ACTIONS.mono_8_16, mono_8_16Handler(socket, pool));
+  socket.on(
+    ACTIONS.CONVERT_MONO_16,
+    api.handle.bind(api, ACTIONS.CONVERT_MONO_16, socket),
+  );
+  socket.on(
+    ACTIONS.CONCAT_WITH_PAUSE,
+    api.handle.bind(api, ACTIONS.CONCAT_WITH_PAUSE, socket),
+  );
 });

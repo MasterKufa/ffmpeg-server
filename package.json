@@ -1,23 +1,24 @@
 {
-  "name": "ffmpeg_server",
+  "name": "ffmpeg-server",
   "version": "1.0.0",
   "description": "Simple ffmpeg docker wrapper on node.",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "start:ci": "ts-node /app/src/index.ts"
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+    "watch:serve": "ts-node ./src/index.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MasterKufa/ffmpeg_server.git"
+    "url": "git+https://github.com/MasterKufa/ffmpeg-server.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MasterKufa/ffmpeg_server/issues"
+    "url": "https://github.com/MasterKufa/ffmpeg-server/issues"
   },
-  "homepage": "https://github.com/MasterKufa/ffmpeg_server#readme",
+  "homepage": "https://github.com/MasterKufa/ffmpeg-server#readme",
   "dependencies": {
-    "@master_kufa/tools": "^2.0.1",
+    "@master_kufa/server-tools": "^0.1.22",
+    "dotenv": "^16.3.1",
     "socket.io": "^4.6.1",
     "ts-node": "^10.9.1"
   },
@@ -25,6 +26,7 @@
     "@types/node": "^20.2.5",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@typescript-eslint/parser": "^5.59.7",
+    "nodemon": "^2.0.22",
     "typescript": "^5.0.4"
   }
 }
