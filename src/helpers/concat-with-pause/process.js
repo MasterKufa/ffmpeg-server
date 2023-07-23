@@ -1,3 +1,6 @@
+const { exec } = require('child_process');
+const { rmSync } = require('fs');
+
 const reply = (id) => (err) => {
   process.send({
     success: Boolean(err),
@@ -5,12 +8,15 @@ const reply = (id) => (err) => {
   });
 };
 
-const concat = ({ inputSource1, inputSource2, outputPath, id, pauseMs }) =>
+const concat = ({ inputSource1, inputSource2, outputPath, id, pauseMs }) => {
+  rmSync(outputPath);
+
   exec(
-    `ffmpeg -i ${inputSource1} -i ${inputSource2} -filter_complex "[0][1]acrossfade=d=${
+    `ffmpeg -i ${inputSource1} -i ${inputSource2} -filter_complex "aevalsrc=exprs=0:d=${
       pauseMs / 1000
-    }:c1=exp:c2=exp" ${outputPath}`,
+    }[silence], [0:a] [silence] [1:a] concat=n=3:v=0:a=1 [outa]" -map "[outa]" ${outputPath}`,
     reply(id),
   );
+};
 
 process.on('message', (message) => concat(message));

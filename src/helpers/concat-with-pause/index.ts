@@ -3,7 +3,7 @@ import { pool } from '../../pool';
 import { ConcatTaskResult, ConcatWithPauseTask } from './types';
 import { ConcatConfig } from '../../types';
 
-const processPath = resolve('.', 'process');
+const processPath = resolve(__dirname, 'process');
 
 export const concatWithPause = (config: ConcatConfig) =>
   new Promise<ConcatTaskResult>((resolve) => {

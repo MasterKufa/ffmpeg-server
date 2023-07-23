@@ -1,3 +1,5 @@
+const { exec } = require('child_process');
+
 const reply = (id) => (err) => {
   process.send({
     success: Boolean(err),
