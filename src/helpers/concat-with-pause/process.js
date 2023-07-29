@@ -1,5 +1,5 @@
 const { exec } = require('child_process');
-const { rmSync } = require('fs');
+const { rmSync, existsSync } = require('fs');
 
 const reply = (id) => (err) => {
   process.send({
@@ -9,7 +9,7 @@ const reply = (id) => (err) => {
 };
 
 const concat = ({ inputSource1, inputSource2, outputPath, id, pauseMs }) => {
-  rmSync(outputPath);
+  if (existsSync(outputPath)) rmSync(outputPath);
 
   exec(
     `ffmpeg -i ${inputSource1} -i ${inputSource2} -filter_complex "aevalsrc=exprs=0:d=${
