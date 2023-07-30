@@ -8,6 +8,26 @@ const reply = (id) => (err) => {
   });
 };
 
+const buildConcatSource = (inputSourceTimes, tag, silenceTag) =>
+  Array(inputSourceTimes)
+    .fill(tag)
+    .reduce(
+      (acc, cur, inx) =>
+        acc + `${inx === 0 ? '' : ` [${silenceTag}${inx - 1}]`} ${cur} `,
+      '',
+    );
+
+const buildSilence = (inputSourceTimes, repeatDelay, silenceTag) =>
+  inputSourceTimes > 1
+    ? Array(inputSourceTimes - 1)
+        .fill(null)
+        .map(
+          (_, inx) =>
+            `, aevalsrc=exprs=0:d=${repeatDelay / 1000}[${silenceTag}${inx}]`,
+        )
+        .join('')
+    : '';
+
 const concat = ({
   inputSource1,
   inputSource2,
@@ -21,30 +41,36 @@ const concat = ({
 }) => {
   if (existsSync(outputPath)) rmSync(outputPath);
 
-  const silenceSourceTag =
-    inputSource1Times > 1
-      ? `, aevalsrc=exprs=0:d=${repeatSourceDelay / 1000}[silenceSource]`
-      : '';
+  const silenceSourceTag = buildSilence(
+    inputSource1Times,
+    repeatSourceDelay,
+    'silenceSource',
+  );
 
-  const silenceTargetTag =
-    inputSource1Times > 1
-      ? `, aevalsrc=exprs=0:d=${repeatTargetDelay / 1000}[silenceTarget]`
-      : '';
+  const silenceTargetTag = buildSilence(
+    inputSource2Times,
+    repeatTargetDelay,
+    'silenceTarget',
+  );
 
-  const concatSource = Array(inputSource1Times)
-    .fill('[0:a]')
-    .join('[silenceSource]');
+  const concatSource = buildConcatSource(
+    inputSource1Times,
+    '[0:a]',
+    'silenceSource',
+  );
 
-  const concatTarget = Array(inputSource2Times)
-    .fill('[1:a]')
-    .join('[silenceTarget]');
+  const concatTarget = buildConcatSource(
+    inputSource2Times,
+    '[1:a]',
+    'silenceTarget',
+  );
 
   const concatCount = 2 * (inputSource1Times + inputSource2Times) - 1;
 
   exec(
     `ffmpeg -i ${inputSource1}  -i ${inputSource2} -filter_complex "aevalsrc=exprs=0:d=${
       pauseMs / 1000
-    }[silence]${silenceSourceTag}${silenceTargetTag}, ${concatSource}  [silence] ${concatTarget} concat=n=${concatCount}:v=0:a=1 [outa]" -map "[outa]" ${outputPath}`,
+    }[silence]${silenceSourceTag}${silenceTargetTag}, ${concatSource} [silence] ${concatTarget} concat=n=${concatCount}:v=0:a=1 [outa]" -map "[outa]" ${outputPath}`,
     reply(id),
   );
 };
