@@ -5,13 +5,11 @@ const reply = (id) => (err) => {
     success: Boolean(err),
     id,
   });
-
-  exec(`rm "/app/input/${inputName}"`, process.exit);
 };
 
-const convert = ({ inputName, outputName, id }) =>
+const convert = ({ input, output, id }) =>
   exec(
-    `ffmpeg -i "/app/input/${inputName}" -y "/app/output/${outputName}" -ar 8000 -ac 1 -acodec pcm_s16le`,
+    `ffmpeg -i ${input} -y ${output} -ar 8000 -ac 1 -acodec pcm_s16le`,
     reply(id),
   );
 

@@ -1,4 +1,4 @@
 export enum ACTIONS {
-  CONVERT_MONO_16 = 'ffmpeg_convert_to_8_rate_mono_16bit',
+  CONVERT_MONO_16 = 'CONVERT_MONO_16',
   CONCAT_WITH_PAUSE = 'CONCAT_WITH_PAUSE',
 }

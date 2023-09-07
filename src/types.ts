@@ -1,6 +1,6 @@
 export type ConvertConfig = {
-  inputName: string;
-  outputName: string;
+  input: string;
+  output: string;
   id: string;
 };
 
