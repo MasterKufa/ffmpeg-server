@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/MasterKufa/ffmpeg-server#readme",
   "dependencies": {
-    "@master_kufa/server-tools": "^0.1.26",
+    "@master_kufa/server-tools": "^0.1.29",
     "dotenv": "^16.3.1",
     "socket.io": "^4.6.1",
     "ts-node": "^10.9.1"

@@ -8,13 +8,8 @@ config();
 
 const io = createServer();
 
-io.on('connection', (socket: Socket) => {
-  socket.on(
-    ACTIONS.CONVERT_MONO_16,
-    api.handle.bind(api, ACTIONS.CONVERT_MONO_16, socket),
-  );
-  socket.on(
-    ACTIONS.CONCAT_WITH_PAUSE,
-    api.handle.bind(api, ACTIONS.CONCAT_WITH_PAUSE, socket),
-  );
-});
+io.on('connection', (socket: Socket) =>
+  Object.values(ACTIONS).forEach((action) =>
+    socket.on(action, api.handle.bind(api, action, socket)),
+  ),
+);

@@ -2,10 +2,9 @@ const { exec } = require('child_process');
 const { rmSync, existsSync } = require('fs');
 
 const reply = (id) => (err) => {
-  process.send({
-    success: Boolean(err),
-    id,
-  });
+  if (err) process.exit(1);
+
+  process.send({ id });
 };
 
 const buildConcatSource = (inputSourceTimes, tag, silenceTag) =>
