@@ -5,11 +5,11 @@ import { ConcatConfig, ConvertConfig } from './types';
 import { createProcess } from './helpers';
 import { resolve } from 'path';
 
-const basePath = resolve('.', 'processes');
+const basePath = resolve(__dirname, 'processes');
 
 export const api = new Api({
-  [ACTIONS.CONVERT_MONO_16]: (payload: Request<ConvertConfig>) =>
-    createProcess(resolve(basePath, 'convert-to-wav'), payload),
+  [ACTIONS.CONVERT_MP3]: (payload: Request<ConvertConfig>) =>
+    createProcess(resolve(basePath, 'convert-to-mp3.js'), payload),
   [ACTIONS.CONCAT_WITH_PAUSE]: async (payload: Request<ConcatConfig>) =>
-    createProcess(resolve(basePath, 'concat-with-pause'), payload),
+    createProcess(resolve(basePath, 'concat-with-pause.js'), payload),
 });
