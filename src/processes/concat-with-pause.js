@@ -1,5 +1,6 @@
 const { exec } = require('child_process');
-const { rmSync, existsSync } = require('fs');
+const { existsSync } = require('fs');
+const { rm } = require('fs/promises');
 
 const reply = (id) => (err) => {
   if (err) process.exit(1);
@@ -27,7 +28,7 @@ const buildSilence = (inputSourceTimes, repeatDelay, silenceTag) =>
         .join('')
     : '';
 
-const concat = ({
+const concat = async ({
   inputSource1,
   inputSource2,
   outputPath,
@@ -38,7 +39,7 @@ const concat = ({
   repeatSourceDelay,
   repeatTargetDelay,
 }) => {
-  if (existsSync(outputPath)) rmSync(outputPath);
+  if (existsSync(outputPath)) await rm(outputPath);
 
   const silenceSourceTag = buildSilence(
     inputSource1Times,
