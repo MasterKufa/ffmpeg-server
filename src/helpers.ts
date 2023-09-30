@@ -1,5 +1,5 @@
 import { pool } from './pool';
-import { Task, TaskResult } from './types';
+import { TaskResult } from './types';
 
 export const createProcess = (processPath: string, config: object) =>
   new Promise<TaskResult>((resolve) =>

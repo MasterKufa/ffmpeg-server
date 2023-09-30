@@ -1,6 +1,6 @@
 import { ACTIONS } from './actions';
 import { Request, Api } from '@master_kufa/server-tools';
-import { ConcatConfig, ConvertConfig } from './types';
+import { ConcatConfig, ConvertConfig, NormalizeVolumeConfig } from './types';
 
 import { createProcess } from './helpers';
 import { resolve } from 'path';
@@ -12,4 +12,6 @@ export const api = new Api({
     createProcess(resolve(basePath, 'convert-to-mp3.js'), payload),
   [ACTIONS.CONCAT_WITH_PAUSE]: async (payload: Request<ConcatConfig>) =>
     createProcess(resolve(basePath, 'concat-with-pause.js'), payload),
+  [ACTIONS.NORMALIZE_VOLUME]: async (payload: Request<NormalizeVolumeConfig>) =>
+    createProcess(resolve(basePath, 'normalize-volume.js'), payload),
 });

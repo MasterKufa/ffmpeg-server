@@ -12,6 +12,11 @@ export type ConcatConfig = {
   id: string;
 };
 
+export type NormalizeVolumeConfig = {
+  input: string;
+  id: string;
+};
+
 export type TaskResult = {
   success: boolean;
   id: string;
