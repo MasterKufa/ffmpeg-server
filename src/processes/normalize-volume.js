@@ -3,11 +3,7 @@ const { rm, rename } = require('fs/promises');
 
 const TARGET_VOLUME = -15;
 
-const reply = (id) => (err) => {
-  if (err) process.exit(1);
-
-  process.send({ id });
-};
+const reply = (id) => process.send({ id });
 
 const measureVolume = (input) =>
   new Promise((resolve) =>
@@ -21,10 +17,15 @@ const changeVolume = async ({ input, id }) => {
   const volume = TARGET_VOLUME - (await measureVolume(input));
   const tempFile = input.replace(/\.(.+)$/g, '.temp-volume.$1');
 
+  console.log(0, volume, tempFile);
+
   exec(
     `ffmpeg -i ${input} -filter:a "volume=${volume}dB" ${tempFile}`,
-    async () => {
+    async (err) => {
+      if (err) process.exit(1);
+
       await rm(input);
+
       await rename(tempFile, input);
 
       reply(id);
