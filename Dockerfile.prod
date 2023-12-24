@@ -1,4 +1,5 @@
 FROM node:18-alpine
+LABEL AUTO_UPDATE="true"
 WORKDIR /app
 RUN apk add --update --no-cache python3 make g++ ffmpeg && rm -rf /var/cache/apk/*
 COPY . /app
